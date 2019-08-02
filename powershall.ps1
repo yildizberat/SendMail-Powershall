@@ -11,19 +11,19 @@ Function Send_Email
             Mandatory=$true)]
         [String]$To,
            [Parameter(
-           Mandory=$true)]
+           Mandatory=$true)]
         [String]$From,
             [Parameter(
             Mandatory=$true)]
         [String]$Password,
            [Parameter(
-           Mandory=$true)]
+           Mandatory=$true)]
          [String]$Subject,
            [Parameter(
-           Mandory=$true)]
+           Mandatory=$true)]
          [String]$Body,
            [Parameter(
-           Mandory=$true)]
+           Mandatory=$true)]
          [String]$attachment
            )
 
