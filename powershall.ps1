@@ -1,83 +1,21 @@
-﻿Param( [String]$Att,
-       [String]$Subj,
-       [String]$Body
-       
-       )
+$Date = get-date
+$Name = (Get-WmiObject Win32_Computersystem).name
+$From = "From@EMAIL.com"
+$To = "TO@EMAIL.com"
+$Subject = "Subject - $Date" // date is optional
+$Body =  "Body Description"
 
-Function Send_Email
-{
-    Param(
-            [Parameter(
-            Mandatory=$true)]
-        [String]$To,
-           [Parameter(
-           Mandatory=$true)]
-        [String]$From,
-            [Parameter(
-            Mandatory=$true)]
-        [String]$Password,
-           [Parameter(
-           Mandatory=$true)]
-         [String]$Subject,
-           [Parameter(
-           Mandatory=$true)]
-         [String]$Body,
-           [Parameter(
-           Mandatory=$true)]
-         [String]$attachment
-           )
+$FileAttach = "Attachment Location"
+$FileAttach2 = "Attachment Location"// second attachment is optional 
 
-try
-{
-    $Msg = New-Object System.Net.Mail.MailMessage($From , $To, $Subject , $Body)
-    $Srv = "smtp.gmail.com"
-    if($attachment -ne $null)
-    {
-        try
-        {
-            $attachment = $attachment -split ("\:\:");
+$SMTPServer = "smtp.gmail.com"
+$SMTPClient = new-object Net.Mail.SmtpClient($SMTPServer,587)
+$SMTPClient.EnableSsl = $true
+$SMTPClient.Credentials = New-Object System.Net.NetworkCredential("Sender_Email_Address","Sender_Email_Password");
+$Attachment = new-object Net.Mail.Attachment($FileAttach)
+$Attachment2 = new-object Net.Mail.Attachment($FileAttach2)
 
-            ForEach($val in $Attechments)
-            {
-            $attch =  New-Object System.Net.Mail.Attachment($val)
-            $Msg.Attachments.Add($attch)
-            } 
-        }
-        catch 
-        {
-            exit 2;
-        }
-        $Client = New-Object System.Net.Mail.SmtpClient($Srv, 587)
-        $Client = Enablessl = $true
-        $Client.Credentials = New-Object System.Net.NetworkCredential($From.Split("@")[0], $Password)
-        $Client.Send($Msg)
-        Remove-Variable -Name Client
-        Remove-Variable -Name Password
-        exit 7; 
-    }
-   
-
-}
-  catch 
-    {
-        exit 3;
-    }
-}
-
-try
-{
-    Send-Email
-        -attechment $Att
-        -To "Client Email Address"
-        -Body $Body
-        -Subject $Subj
-        -Password "your email password"
-        -From "your email address"
-
-
-}
-catch 
-{
-
-exit 4;
-}
+$MSG = new-object Net.Mail.MailMessage($From, $To, $Subject, $Body)
+$MSG.attachments.add($Attachment)
+$MSG.attachments.add($Attachment2)// second attachment is optional
+$SMTPClient.send($msg)
